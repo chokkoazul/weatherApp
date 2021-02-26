@@ -1,11 +1,11 @@
-package com.cosorio.weather.service;
+package com.cosorio.weather.unit.service;
 
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import com.cosorio.weather.exception.NotFoundWeatherException;
 import com.cosorio.weather.repository.WeatherRepository;
-import com.cosorio.weather.service.domain.Location;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.service.domain.Location;
+import com.cosorio.weather.unit.service.domain.WeatherDomain;
 import com.cosorio.weather.repository.TemperatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
-package com.cosorio.weather.service;
+package com.cosorio.weather.unit.service;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.service.domain.WeatherDomain;
 
 import java.util.List;
 

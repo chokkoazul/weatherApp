@@ -1,8 +1,8 @@
 package com.cosorio.weather.controller;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.service.domain.WeatherDomain;
-import com.cosorio.weather.service.WeatherService;
+import com.cosorio.weather.unit.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
