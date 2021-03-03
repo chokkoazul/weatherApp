@@ -1,12 +1,14 @@
-package com.cosorio.weather.unit.service;
+package com.cosorio.weather.unit.controller.service;
 
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import com.cosorio.weather.exception.NotFoundWeatherException;
 import com.cosorio.weather.repository.WeatherRepository;
-import com.cosorio.weather.unit.service.domain.Location;
-import com.cosorio.weather.unit.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.controller.service.domain.Location;
+import com.cosorio.weather.unit.controller.service.domain.ReportWeather;
+import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
 import com.cosorio.weather.repository.TemperatureRepository;
+import com.cosorio.weather.unit.controller.service.domain.DataWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,12 +73,12 @@ public class WeatherServiceImpl implements WeatherService {
         weather.setCity(location.getCity());
         weather.setState(location.getState());
         List<Temperature> temperatures = new ArrayList<>();
-        for(int i=0;i<weatherDomain.getTemperature().length;i++){
-            Float temp = weatherDomain.getTemperature()[i];
+        for(Float temp:weatherDomain.getTemperature()){
             Temperature temperature = new Temperature();
             temperature.setValue(temp);
             temperatures.add(temperatureRepository.save(temperature));
         }
+
         weather.setTemperatures(temperatures);
         weatherRepository.save(weather);
         return weatherDomain;
@@ -93,8 +95,7 @@ public class WeatherServiceImpl implements WeatherService {
         weather.setCity(location.getCity());
         weather.setState(location.getState());
         List<Temperature> temperatures = new ArrayList<>();
-        for(int i=0;i<weatherDomain.getTemperature().length;i++){
-            Float temp = weatherDomain.getTemperature()[i];
+        for(Float temp:weatherDomain.getTemperature()){
             Temperature temperature = new Temperature();
             temperature.setValue(temp);
             temperatures.add(temperatureRepository.save(temperature));
@@ -111,5 +112,44 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public void deleteWeatherById(Long id) {
         weatherRepository.deleteById(id);
+    }
+
+    @Override
+    public ReportWeather getWeatherReport(String startDate, String endDate) {
+
+        validateDate(startDate, endDate);
+
+        List<Weather> weathers = weatherRepository.findByDateLessThanEqualAndDateGreaterThanEqual(Date.valueOf(endDate), Date.valueOf(startDate));
+
+        ReportWeather reportWeather = new ReportWeather();
+        List<DataWeather> dataWeathers = new ArrayList<>();
+        for (Weather weather: weathers){
+            DataWeather dataWeather = new DataWeather();
+            dataWeather.setCity(weather.getCity());
+            dataWeather.setHighest(getHighest(weather.getTemperatures()));
+            dataWeather.setLowest(getLowest(weather.getTemperatures()));
+            dataWeathers.add(dataWeather);
+        }
+        reportWeather.setReport(dataWeathers);
+        return reportWeather;
+    }
+
+    private Float getLowest(List<Temperature> temperatures) {
+        return temperatures.get(temperatures.size()-1).getValue();
+    }
+
+    private Float getHighest(List<Temperature> temperatures) {
+        return temperatures.get(0).getValue();
+    }
+
+    private void validateDate(String startDate, String endDate) {
+        if(startDate == null){
+
+        }
+
+        if(endDate == null) {
+
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.cosorio.weather.unit.service.domain;
+package com.cosorio.weather.unit.controller.service.domain;
 
 public class SortById implements Comparable<WeatherDomain> {
 

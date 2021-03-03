@@ -1,8 +1,8 @@
-package com.cosorio.weather.unit.service;
+package com.cosorio.weather.unit.controller.service;
 
 
 import com.cosorio.weather.repository.WeatherRepository;
-import com.cosorio.weather.unit.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import org.junit.Before;

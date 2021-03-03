@@ -1,8 +1,9 @@
 package com.cosorio.weather.controller;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.unit.service.domain.WeatherDomain;
-import com.cosorio.weather.unit.service.WeatherService;
+import com.cosorio.weather.unit.controller.service.domain.ReportWeather;
+import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.controller.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,6 +64,11 @@ public class WeatherController {
     ResponseEntity<WeatherDomain> deleteWeatherById(@PathVariable("weatherId") Long weatherId){
         weatherService.deleteWeatherById(weatherId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/weather/report")
+    ResponseEntity<ReportWeather> getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+        return ResponseEntity.ok(weatherService.getWeatherReport(startDate, endDate));
     }
 
 

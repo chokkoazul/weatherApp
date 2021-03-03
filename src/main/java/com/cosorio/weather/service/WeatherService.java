@@ -1,7 +1,8 @@
-package com.cosorio.weather.unit.service;
+package com.cosorio.weather.unit.controller.service;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.unit.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.controller.service.domain.ReportWeather;
+import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface WeatherService {
     void deleteAllWeathers();
 
     void deleteWeatherById(Long id);
+
+    ReportWeather getWeatherReport(String startDate, String endDate);
 }

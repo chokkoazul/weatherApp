@@ -1,7 +1,7 @@
 package com.cosorio.weather.entity;
 
-import com.cosorio.weather.unit.service.domain.Location;
-import com.cosorio.weather.unit.service.domain.WeatherDomain;
+import com.cosorio.weather.unit.controller.service.domain.Location;
+import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +23,7 @@ public class Weather {
     private Date date;
     private Float latitud;
     private Float longitud;
+    @Column(unique = true)
     private String city;
     private String state;
 

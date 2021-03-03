@@ -6,7 +6,7 @@ build-image:
 
 run-only:
 	docker run --rm \
-		-p 8080:8080 \
+		-p 8081:8081 \
 		--name weatherApp cosorio/weather
 
 run: build-artifact build-image run-only
@@ -14,7 +14,7 @@ run: build-artifact build-image run-only
 debug-only:
 	docker run --rm \
 		-e JAVA_TOOL_OPTIONS=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005\" \
-		-p 8080:8080 \
+		-p 8081:8081 \
 		-p 5005:5005 \
 		--name weatherApp cosorio/weather
 

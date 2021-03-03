@@ -10,4 +10,10 @@ public interface WeatherRepository extends CrudRepository<Weather, Long> {
 
     List<Weather> findByDate(Date date);
 
+    List<Weather> findByDateLessThanEqual(Date date);
+
+    List<Weather> findByDateGreaterThanEqual(Date date);
+
+    List<Weather> findByDateLessThanEqualAndDateGreaterThanEqual(Date date1, Date date2);
+
 }
