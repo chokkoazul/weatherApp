@@ -1,5 +1,7 @@
 package com.cosorio.weather.entity;
 
+import com.cosorio.weather.service.domain.WeatherDomain;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Temperature {
+public class Temperature implements Comparable<Temperature>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +41,10 @@ public class Temperature {
     public void setValue(Float value) {
         this.value = value;
     }
+
+    @Override
+    public int compareTo(Temperature o) {
+        return getValue().compareTo(o.getValue());
+    }
+
 }

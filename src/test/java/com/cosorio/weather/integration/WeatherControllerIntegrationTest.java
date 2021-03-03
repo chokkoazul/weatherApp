@@ -1,8 +1,8 @@
 package com.cosorio.weather.integration;
 
 import com.cosorio.weather.controller.WeatherController;
-import com.cosorio.weather.unit.controller.service.WeatherService;
-import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
+import com.cosorio.weather.service.WeatherService;
+import com.cosorio.weather.service.domain.WeatherDomain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;

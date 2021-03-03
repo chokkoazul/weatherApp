@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -135,10 +136,12 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     private Float getLowest(List<Temperature> temperatures) {
-        return temperatures.get(temperatures.size()-1).getValue();
+        Collections.sort(temperatures);
+        return temperatures.get(0).getValue();
     }
 
     private Float getHighest(List<Temperature> temperatures) {
+        Collections.reverse(temperatures);
         return temperatures.get(0).getValue();
     }
 
