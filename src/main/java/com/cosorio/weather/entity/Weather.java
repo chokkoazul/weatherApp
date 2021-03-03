@@ -1,7 +1,7 @@
 package com.cosorio.weather.entity;
 
-import com.cosorio.weather.unit.controller.service.domain.Location;
-import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
+import com.cosorio.weather.service.domain.Location;
+import com.cosorio.weather.service.domain.WeatherDomain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

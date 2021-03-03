@@ -1,4 +1,4 @@
-package com.cosorio.weather.unit.controller.service.domain;
+package com.cosorio.weather.service.domain;
 
 public class DataWeather {
 

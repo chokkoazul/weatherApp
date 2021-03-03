@@ -1,8 +1,8 @@
-package com.cosorio.weather.unit.controller.service;
+package com.cosorio.weather.service;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.unit.controller.service.domain.ReportWeather;
-import com.cosorio.weather.unit.controller.service.domain.WeatherDomain;
+import com.cosorio.weather.service.domain.ReportWeather;
+import com.cosorio.weather.service.domain.WeatherDomain;
 
 import java.util.List;
 
