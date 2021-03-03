@@ -1,0 +1,7 @@
+APPLICATION_NAME=weatherApp
+
+clean:
+	./mvnw clean
+
+clean-package:
+	./mvnw clean package -U -DskipTests

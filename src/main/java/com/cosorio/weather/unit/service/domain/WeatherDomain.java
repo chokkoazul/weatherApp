@@ -1,5 +1,6 @@
 package com.cosorio.weather.unit.service.domain;
 
+
 import java.time.LocalDate;
 import java.util.Arrays;
 

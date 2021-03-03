@@ -1,0 +1,27 @@
+build-artifact:
+	./mvnw clean package -U -DskipTests
+
+build-image:
+	docker build -t cosorio/weather .
+
+run-only:
+	docker run --rm \
+		-p 8080:8080 \
+		--name weatherApp cosorio/weather
+
+run: build-artifact build-image run-only
+
+debug-only:
+	docker run --rm \
+		-e JAVA_TOOL_OPTIONS=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005\" \
+		-p 8080:8080 \
+		-p 5005:5005 \
+		--name weatherApp cosorio/weather
+
+debug: build-artifact build-image debug-only
+
+undeploy:
+	docker stop weatherApp; docker rm weatherApp;
+
+docker-ssh:
+	docker exec -it weatherApp /bin/bash

@@ -33,6 +33,7 @@ public class WeatherServiceImpl implements WeatherService {
         for(Weather weather : weatherRepository.findAll()){
             weatherDomains.add(weather.transformToWeather());
         }
+
         weatherDomains.sort(Collections.reverseOrder());
         return weatherDomains;
 
