@@ -28,7 +28,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weathers")
-    ResponseEntity<List<WeatherDomain>> getAllWeathers(@RequestParam(required = false) String date) {
+    public ResponseEntity<List<WeatherDomain>> getAllWeathers(@RequestParam(required = false) String date) {
         if (date != null){
             try {
                 return ResponseEntity.ok(weatherService.getWeatherByDate(date));
