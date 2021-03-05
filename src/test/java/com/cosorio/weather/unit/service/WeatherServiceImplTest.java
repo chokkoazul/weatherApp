@@ -35,6 +35,7 @@ public class WeatherServiceImplTest {
 
     @Before
     public void setUp() {
+        // STUB FOR getAllWeatherResponseOk
         Iterable<Weather> weathers = Collections.singletonList(getWeather(1L,
                 23.2345f,
                 45.4567f,
@@ -44,6 +45,7 @@ public class WeatherServiceImplTest {
                         new Temperature(2L, 45.7f))));
         when(weatherRepository.findAll()).thenReturn(weathers);
 
+        // STUB FOR getWeatherResponseOk
         Optional<Weather> optionalWeather = Optional.of(getWeather(1L,
                 23.2345f,
                 45.4567f,
@@ -59,6 +61,8 @@ public class WeatherServiceImplTest {
 
         List<WeatherDomain> weatherDomains = weatherService.getAllWeather();
         assertEquals("weatherDomains.size() should be 1",weatherDomains.size(), 1);
+        assertEquals("object weather should be equals", weatherDomains.get(0).toString(),  "MeteorologicalDomain{id=1, date=2021-03-05, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
+
     }
 
     @Test
@@ -66,6 +70,7 @@ public class WeatherServiceImplTest {
 
         WeatherDomain weatherDomain = weatherService.getWeather(1L);
         assertNotNull("weatherDomain should not be null",weatherDomain);
+        assertEquals("object weather should be equals", weatherDomain.toString(), "MeteorologicalDomain{id=1, date=2021-03-05, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
     }
 
 

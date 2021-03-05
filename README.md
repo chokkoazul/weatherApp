@@ -1,5 +1,11 @@
 # weatherApp
 
+Dependencias
+
+- Git
+- Java 8
+- Docker
+
 Para iniciar la app debes ejecutar
 
 - make run
