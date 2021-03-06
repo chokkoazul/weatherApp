@@ -1,2 +1,2 @@
 integration-test:
-	./mvnw clean test -Dtest=com/lan/integration.**.* -Dspring.profiles.active=dev
+	./mvnw clean test -Dtest=com/cosorio/weather/integration.**.*

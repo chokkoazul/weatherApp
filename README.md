@@ -1,21 +1,25 @@
 # weatherApp
 
-Dependencias
+Dependencies
 
 - Git
 - Java 8
 - Docker
 
-Para iniciar la app
+For init app
 
 - make run
 
-Para probarla
+For Test
 
 - curl --location --request GET 'localhost:8080/weathers'
 
 - curl --location --request GET 'localhost:8080/weathers/3'
 
-Para ejecutar los test
+For run unit test
 
 - make unit-test
+
+For run integration test
+
+- make integration-test

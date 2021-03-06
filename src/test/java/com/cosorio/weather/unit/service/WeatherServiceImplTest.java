@@ -61,7 +61,7 @@ public class WeatherServiceImplTest {
 
         List<WeatherDomain> weatherDomains = weatherService.getAllWeather();
         assertEquals("weatherDomains.size() should be 1",weatherDomains.size(), 1);
-        assertEquals("object weather should be equals", weatherDomains.get(0).toString(),  "MeteorologicalDomain{id=1, date=2021-03-05, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
+        assertEquals("object weather should be equals", weatherDomains.get(0).toString(),  "MeteorologicalDomain{id=1, date=2021-03-06, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
 
     }
 
@@ -70,7 +70,7 @@ public class WeatherServiceImplTest {
 
         WeatherDomain weatherDomain = weatherService.getWeather(1L);
         assertNotNull("weatherDomain should not be null",weatherDomain);
-        assertEquals("object weather should be equals", weatherDomain.toString(), "MeteorologicalDomain{id=1, date=2021-03-05, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
+        assertEquals("object weather should be equals", weatherDomain.toString(), "MeteorologicalDomain{id=1, date=2021-03-06, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
     }
 
 

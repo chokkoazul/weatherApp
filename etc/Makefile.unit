@@ -1,2 +1,2 @@
 unit-test:
-	./mvnw test
+	./mvnw clean test -Dtest=com/cosorio/weather/unit.**.*

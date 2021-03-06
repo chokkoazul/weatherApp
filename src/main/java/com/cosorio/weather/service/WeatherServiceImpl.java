@@ -82,6 +82,7 @@ public class WeatherServiceImpl implements WeatherService {
 
         weather.setTemperatures(temperatures);
         weatherRepository.save(weather);
+        weatherDomain.setId(weather.getId());
         return weatherDomain;
     }
 

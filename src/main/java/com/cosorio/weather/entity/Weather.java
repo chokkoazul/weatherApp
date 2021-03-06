@@ -5,6 +5,7 @@ import com.cosorio.weather.service.domain.WeatherDomain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Weather {
     private String city;
     private String state;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "WEATHER_ID", referencedColumnName = "ID")
     private List<Temperature> temperatures;
 
