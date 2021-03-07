@@ -36,7 +36,7 @@ public class WeatherServiceImplTest {
     @Before
     public void setUp() {
         // STUB FOR getAllWeatherResponseOk
-        Iterable<Weather> weathers = Collections.singletonList(getWeather(1L,
+        Iterable<Weather> weathers = Collections.singletonList(getWeather(1L, Date.valueOf("2021-02-01"),
                 23.2345f,
                 45.4567f,
                 "Santiago",
@@ -46,7 +46,7 @@ public class WeatherServiceImplTest {
         when(weatherRepository.findAll()).thenReturn(weathers);
 
         // STUB FOR getWeatherResponseOk
-        Optional<Weather> optionalWeather = Optional.of(getWeather(1L,
+        Optional<Weather> optionalWeather = Optional.of(getWeather(1L, Date.valueOf("2021-02-01"),
                 23.2345f,
                 45.4567f,
                 "Santiago",
@@ -61,7 +61,7 @@ public class WeatherServiceImplTest {
 
         List<WeatherDomain> weatherDomains = weatherService.getAllWeather();
         assertEquals("weatherDomains.size() should be 1",weatherDomains.size(), 1);
-        assertEquals("object weather should be equals", weatherDomains.get(0).toString(),  "MeteorologicalDomain{id=1, date=2021-03-06, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
+        assertEquals("object weather should be equals", weatherDomains.get(0).toString(),  "MeteorologicalDomain{id=1, date=2021-02-01, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
 
     }
 
@@ -70,16 +70,14 @@ public class WeatherServiceImplTest {
 
         WeatherDomain weatherDomain = weatherService.getWeather(1L);
         assertNotNull("weatherDomain should not be null",weatherDomain);
-        assertEquals("object weather should be equals", weatherDomain.toString(), "MeteorologicalDomain{id=1, date=2021-03-06, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
+        assertEquals("object weather should be equals", weatherDomain.toString(), "MeteorologicalDomain{id=1, date=2021-02-01, location=Location{lat=23.2345, lon=45.4567, city='Santiago', state='Chile'}, temperature=[89.3, 45.7, null, null]}");
     }
 
 
-    private Weather getWeather(Long id, Float latitud, Float longitud, String city, String state, List<Temperature> temperatures) {
+    private Weather getWeather(Long id, Date date, Float latitud, Float longitud, String city, String state, List<Temperature> temperatures) {
         Weather weather = new Weather();
         weather.setId(id);
-        long now = System.currentTimeMillis();
-        Date sqlDate = new Date(now);
-        weather.setDate(sqlDate);
+        weather.setDate(date);
         weather.setLatitud(latitud);
         weather.setLongitud(longitud);
         weather.setCity(city);

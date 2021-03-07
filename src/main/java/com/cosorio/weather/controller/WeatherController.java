@@ -22,7 +22,6 @@ public class WeatherController {
 
     private WeatherService weatherService;
 
-    @Autowired
     public WeatherController(WeatherService weatherService) {
         this.weatherService = weatherService;
     }
@@ -40,7 +39,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weathers/{weatherId}")
-    ResponseEntity<WeatherDomain> getWeather(@PathVariable("weatherId") Long weatherId){
+    public ResponseEntity<WeatherDomain> getWeather(@PathVariable("weatherId") Long weatherId){
         return ResponseEntity.ok(weatherService.getWeather(weatherId));
     }
 
