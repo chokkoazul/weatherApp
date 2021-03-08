@@ -11,6 +11,14 @@ run-only:
 
 run: build-artifact build-image run-only
 
+up-container:
+	docker-compose -f docker-compose.yml up -d
+
+run-sonar:
+	mvn sonar:sonar
+
+sonar: up-container run-sonar
+
 debug-only:
 	docker run --rm \
 		-e JAVA_TOOL_OPTIONS=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005\" \

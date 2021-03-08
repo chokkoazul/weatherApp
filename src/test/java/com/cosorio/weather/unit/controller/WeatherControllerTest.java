@@ -1,9 +1,7 @@
 package com.cosorio.weather.unit.controller;
 
 import com.cosorio.weather.controller.WeatherController;
-import com.cosorio.weather.repository.WeatherRepository;
 import com.cosorio.weather.service.WeatherService;
-import com.cosorio.weather.service.WeatherServiceImpl;
 import com.cosorio.weather.service.domain.WeatherDomain;
 import org.junit.Before;
 import org.junit.Test;
