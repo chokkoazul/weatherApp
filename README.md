@@ -23,3 +23,7 @@ For run unit test
 For run integration test
 
 - make integration-test
+
+For run sonar
+
+- make sonar
