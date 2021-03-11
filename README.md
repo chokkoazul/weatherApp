@@ -20,6 +20,10 @@ For run unit test
 
 - make unit-test
 
+For view coverage report 
+
+- target/my-reports/index.html
+
 For run integration test
 
 - make integration-test
