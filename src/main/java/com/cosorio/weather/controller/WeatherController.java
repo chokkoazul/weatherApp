@@ -1,5 +1,6 @@
 package com.cosorio.weather.controller;
 
+import com.cosorio.weather.aspect.annotation.Monitor;
 import com.cosorio.weather.exception.NotFoundWeatherException;
 import com.cosorio.weather.service.domain.ReportWeather;
 import com.cosorio.weather.service.domain.WeatherDomain;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Monitor
 @RestController
 public class WeatherController {
 
