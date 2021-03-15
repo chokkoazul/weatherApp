@@ -1,5 +1,6 @@
 package com.cosorio.weather.service;
 
+import com.cosorio.weather.aspect.annotation.Monitor;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import com.cosorio.weather.exception.NotFoundWeatherException;
