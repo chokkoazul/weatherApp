@@ -130,6 +130,39 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.4.3</version>
+
+				<executions>
+					<execution>
+						<id>pit-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>mutationCoverage</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<!-- https://github.com/hcoles/pitest/issues/284 -->
+				<!-- Need this to support JUnit 5 -->
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>0.8</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<targetClasses>
+						<param>com.cosorio.weather.*</param>
+					</targetClasses>
+					<targetTests>
+						<param>com.cosorio.weather.*</param>
+					</targetTests>
+				</configuration>
+			</plugin>
 
 		</plugins>
 	</build>
