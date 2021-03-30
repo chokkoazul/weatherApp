@@ -1,4 +1,4 @@
-package com.cosorio.weather.service.domain;
+package com.cosorio.weather.business.service.domain;
 
 import java.util.List;
 

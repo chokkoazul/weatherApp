@@ -1,23 +1,24 @@
-package com.cosorio.weather.service;
+package com.cosorio.weather.business.service;
 
-import com.cosorio.weather.aspect.annotation.Monitor;
+import com.cosorio.weather.business.builder.WeatherBuilder;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import com.cosorio.weather.exception.NotFoundWeatherException;
 import com.cosorio.weather.repository.WeatherRepository;
-import com.cosorio.weather.service.domain.Location;
-import com.cosorio.weather.service.domain.ReportWeather;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.business.service.domain.Location;
+import com.cosorio.weather.business.service.domain.ReportWeather;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
 import com.cosorio.weather.repository.TemperatureRepository;
-import com.cosorio.weather.service.domain.DataWeather;
+import com.cosorio.weather.business.service.domain.DataWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
@@ -33,35 +34,46 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public List<WeatherDomain> getAllWeather() {
-        List<WeatherDomain> weatherDomains = new ArrayList<>();
-        for(Weather weather : weatherRepository.findAll()){
-            weatherDomains.add(weather.transformToWeather());
-        }
+        List<WeatherDomain> weatherDomains = weatherRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Weather::getId).reversed())
+                .map(WeatherBuilder::build)
+                .collect(Collectors.toList());
 
-        weatherDomains.sort(Collections.reverseOrder());
+        throwDataNotFoundExceptionWhenEmptyList(weatherDomains);
+
         return weatherDomains;
 
     }
 
     @Override
     public WeatherDomain getWeather(Long id) {
-        Weather weather = weatherRepository.findById(id).get();
-        return weather.transformToWeather();
+        return weatherRepository
+                .findById(id)
+                .map(WeatherBuilder::build)
+                .orElseThrow(() -> new NotFoundWeatherException("No existe weather con ese Id"));
     }
 
     @Override
-    public List<WeatherDomain> getWeatherByDate(String date) throws NotFoundWeatherException {
+    public List<WeatherDomain> getWeatherByDate(String date) {
 
-        List<WeatherDomain> weatherDomains = new ArrayList<>();
-        List<Weather> weatherList = weatherRepository.findByDate(Date.valueOf(date));
+        List<WeatherDomain> weatherDomains = weatherRepository
+                .findByDate(Date.valueOf(date))
+                .stream()
+                .sorted(Comparator.comparing(Weather::getId).reversed())
+                .map(WeatherBuilder::build)
+                .collect(Collectors.toList());
 
-        if (weatherList.isEmpty()) throw new NotFoundWeatherException();
-
-        for(Weather weather : weatherList){
-            weatherDomains.add(weather.transformToWeather());
-        }
-        weatherDomains.sort(Collections.reverseOrder());
+        throwDataNotFoundExceptionWhenEmptyList(weatherDomains);
         return weatherDomains;
+    }
+
+    private void throwDataNotFoundExceptionWhenEmptyList(List<WeatherDomain> weatherList) {
+
+        if (weatherList.isEmpty()) {
+            throw new NotFoundWeatherException("List is empty!!!");
+        }
+
     }
 
     @Override

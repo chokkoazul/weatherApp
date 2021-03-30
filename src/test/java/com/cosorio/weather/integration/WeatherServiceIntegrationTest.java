@@ -1,9 +1,9 @@
 package com.cosorio.weather.integration;
 
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.service.WeatherService;
-import com.cosorio.weather.service.domain.Location;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.business.service.WeatherService;
+import com.cosorio.weather.business.service.domain.Location;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,22 +52,15 @@ public class WeatherServiceIntegrationTest {
     }
 
     private WeatherDomain getWeatherDomainTest() {
-        WeatherDomain weatherDomain = new WeatherDomain();
-        weatherDomain.setDate(LocalDate.of(2021,8,1));
-        Location location = new Location();
-        location.setCity("Lima");
-        location.setState("Chile");
-        location.setLon(3.5F);
-        location.setLat(23.5F);
-        weatherDomain.setLocation(location);
+        Location location = Location.builder().city("Lima").state("Chile").lon(3.5F).lat(23.5F).build();
+
         Float[] temperature = new Float[4];
         temperature[0] = 23.5F;
         temperature[1] = 24.5F;
         temperature[2] = 25.5F;
         temperature[3] = 26.5F;
 
-        weatherDomain.setTemperature(temperature);
-        return weatherDomain;
+        return WeatherDomain.builder().date(LocalDate.of(2021,8,1)).location(location).temperature(temperature).build();
     }
 
 

@@ -2,8 +2,8 @@ package com.cosorio.weather.unit.service;
 
 
 import com.cosorio.weather.repository.WeatherRepository;
-import com.cosorio.weather.service.WeatherServiceImpl;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.business.service.WeatherServiceImpl;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class WeatherServiceImplTest {
     @Before
     public void setUp() {
         // STUB FOR getAllWeatherResponseOk
-        Iterable<Weather> weathers = Collections.singletonList(getWeather(1L, Date.valueOf("2021-02-01"),
+        List<Weather> weathers = Collections.singletonList(getWeather(1L, Date.valueOf("2021-02-01"),
                 23.2345f,
                 45.4567f,
                 "Santiago",

@@ -1,12 +1,12 @@
 package com.cosorio.weather.repository;
 
 import com.cosorio.weather.entity.Weather;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
 import java.util.List;
 
-public interface WeatherRepository extends CrudRepository<Weather, Long> {
+public interface WeatherRepository extends JpaRepository<Weather, Long> {
 
     List<Weather> findByDate(Date date);
 

@@ -1,10 +1,10 @@
 package com.cosorio.weather.controller;
 
 import com.cosorio.weather.aspect.annotation.Monitor;
-import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.service.domain.ReportWeather;
-import com.cosorio.weather.service.domain.WeatherDomain;
-import com.cosorio.weather.service.WeatherService;
+import com.cosorio.weather.business.service.WeatherService;
+import com.cosorio.weather.business.service.domain.ReportWeather;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,21 +28,19 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/weathers")
-    public ResponseEntity<List<WeatherDomain>> getAllWeathers(@RequestParam(required = false) String date) {
+    public List<WeatherDomain> getAllWeathers(@RequestParam(required = false) String date) {
         if (date != null){
-            try {
-                return ResponseEntity.ok(weatherService.getWeatherByDate(date));
-            } catch (NotFoundWeatherException e) {
-                return ResponseEntity.notFound().build();
-            }
+            return weatherService.getWeatherByDate(date);
         }
-        return ResponseEntity.ok(weatherService.getAllWeather());
+        return weatherService.getAllWeather();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/weathers/{weatherId}")
-    public ResponseEntity<WeatherDomain> getWeather(@PathVariable("weatherId") Long weatherId){
-        return ResponseEntity.ok(weatherService.getWeather(weatherId));
+    public WeatherDomain getWeather(@PathVariable("weatherId") Long weatherId){
+        return weatherService.getWeather(weatherId);
     }
 
     @PostMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
