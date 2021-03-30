@@ -1,7 +1,7 @@
 package com.cosorio.weather.entity;
 
-import com.cosorio.weather.service.domain.Location;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.business.service.domain.Location;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -105,17 +105,7 @@ public class Weather {
     }
 
     public WeatherDomain transformToWeather() {
-        WeatherDomain weatherDomain = new WeatherDomain();
-
-        weatherDomain.setId(getId());
-        weatherDomain.setDate(getDate().toLocalDate());
-        Location location = new Location();
-        location.setLat(getLatitud());
-        location.setLon(getLongitud());
-        location.setCity(getCity());
-        location.setState(getState());
-
-        weatherDomain.setLocation(location);
+        Location location = Location.builder().lat(getLatitud()).lon(getLongitud()).city(getCity()).state(getState()).build();
 
         Float[] temperature = new Float[4];
         for(int i = 0; i < getTemperatures().size() ; i++){
@@ -123,8 +113,6 @@ public class Weather {
             temperature[i] = temperature1.getValue();
         }
 
-        weatherDomain.setTemperature(temperature);
-
-        return weatherDomain;
+        return WeatherDomain.builder().id(getId()).date(getDate().toLocalDate()).location(location).temperature(temperature).build();
     }
 }

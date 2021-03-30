@@ -1,7 +1,5 @@
 package com.cosorio.weather.entity;
 
-import com.cosorio.weather.service.domain.WeatherDomain;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

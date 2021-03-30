@@ -1,8 +1,7 @@
-package com.cosorio.weather.service;
+package com.cosorio.weather.business.service;
 
-import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.service.domain.ReportWeather;
-import com.cosorio.weather.service.domain.WeatherDomain;
+import com.cosorio.weather.business.service.domain.ReportWeather;
+import com.cosorio.weather.business.service.domain.WeatherDomain;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface WeatherService {
 
     WeatherDomain getWeather(Long id);
 
-    List<WeatherDomain> getWeatherByDate(String date) throws NotFoundWeatherException;
+    List<WeatherDomain> getWeatherByDate(String date);
 
     WeatherDomain createWeather(WeatherDomain weatherDomain);
 
