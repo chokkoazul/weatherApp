@@ -3,7 +3,7 @@
 Dependencies
 
 - Git
-- Java 8
+- Java 11
 - Docker
 
 For init app
