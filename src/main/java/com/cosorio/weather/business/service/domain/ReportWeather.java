@@ -1,7 +1,10 @@
 package com.cosorio.weather.business.service.domain;
 
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 public class ReportWeather {
 
     private List<DataWeather> report;

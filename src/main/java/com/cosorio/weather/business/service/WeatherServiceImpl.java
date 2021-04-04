@@ -137,17 +137,11 @@ public class WeatherServiceImpl implements WeatherService {
 
         List<Weather> weathers = weatherRepository.findByDateLessThanEqualAndDateGreaterThanEqual(Date.valueOf(endDate), Date.valueOf(startDate));
 
-        ReportWeather reportWeather = new ReportWeather();
         List<DataWeather> dataWeathers = new ArrayList<>();
         for (Weather weather: weathers){
-            DataWeather dataWeather = new DataWeather();
-            dataWeather.setCity(weather.getCity());
-            dataWeather.setHighest(getHighest(weather.getTemperatures()));
-            dataWeather.setLowest(getLowest(weather.getTemperatures()));
-            dataWeathers.add(dataWeather);
+            dataWeathers.add(DataWeather.builder().city(weather.getCity()).highest(getHighest(weather.getTemperatures())).lowest(getLowest(weather.getTemperatures())).build());
         }
-        reportWeather.setReport(dataWeathers);
-        return reportWeather;
+        return ReportWeather.builder().report(dataWeathers).build();
     }
 
     private Float getLowest(List<Temperature> temperatures) {

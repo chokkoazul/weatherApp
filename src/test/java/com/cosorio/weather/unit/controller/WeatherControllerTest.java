@@ -1,5 +1,7 @@
 package com.cosorio.weather.unit.controller;
 
+import com.cosorio.weather.business.service.domain.DataWeather;
+import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.controller.WeatherController;
 import com.cosorio.weather.business.service.WeatherService;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
@@ -109,6 +111,20 @@ public class WeatherControllerTest {
         weatherController.deleteWeatherById(666L);
 
         verify(weatherService, times(1)).deleteWeatherById(anyLong());
+    }
+
+    @Test
+    public void getReportResponseOk() {
+        when(weatherService.getWeatherReport(anyString(),anyString()))
+                .thenReturn(ReportWeather.builder().
+                        report(Arrays.asList(
+                                DataWeather.builder().city("Santiago").highest(30.4F).lowest(10.4F).build(),
+                                DataWeather.builder().city("Londres").highest(60.3F).lowest(1.4F).build())).build());
+
+        ReportWeather responseEntity = weatherController.getWeatherReport("1984-01-01", "2021-01-01");
+
+        assertNotNull("responseEntity not should be null",responseEntity);
+        assertEquals("responseEntity.toString() should be equals to ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}", responseEntity.toString(), "ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}");
 
     }
 

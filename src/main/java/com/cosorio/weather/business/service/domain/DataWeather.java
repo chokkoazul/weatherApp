@@ -1,5 +1,8 @@
 package com.cosorio.weather.business.service.domain;
 
+import lombok.Builder;
+
+@Builder
 public class DataWeather {
 
     private String city;
