@@ -44,29 +44,29 @@ public class WeatherController {
     }
 
     @PostMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
-    ResponseEntity<WeatherDomain> createWeather(@RequestBody WeatherDomain weatherDomain) {
+    public ResponseEntity<WeatherDomain> createWeather(@RequestBody WeatherDomain weatherDomain) {
         return ResponseEntity.ok(weatherService.createWeather(weatherDomain));
     }
 
     @PutMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
-    ResponseEntity<WeatherDomain> updateWeather(@RequestBody WeatherDomain weatherDomain) {
+    public ResponseEntity<WeatherDomain> updateWeather(@RequestBody WeatherDomain weatherDomain) {
         return ResponseEntity.ok(weatherService.updateWeather(weatherDomain));
     }
 
     @DeleteMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
-    ResponseEntity<WeatherDomain> deleteWeather(){
+    public ResponseEntity<WeatherDomain> deleteWeather(){
         weatherService.deleteAllWeathers();
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "/weathers/{weatherId}", produces = "application/json;charset=UTF-8")
-    ResponseEntity<WeatherDomain> deleteWeatherById(@PathVariable("weatherId") Long weatherId){
+    public ResponseEntity<WeatherDomain> deleteWeatherById(@PathVariable("weatherId") Long weatherId){
         weatherService.deleteWeatherById(weatherId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/weather/report")
-    ResponseEntity<ReportWeather> getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+    public ResponseEntity<ReportWeather> getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
         return ResponseEntity.ok(weatherService.getWeatherReport(startDate, endDate));
     }
 
