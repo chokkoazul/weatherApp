@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WeatherControllerTest {
@@ -76,10 +76,10 @@ public class WeatherControllerTest {
     public void createWeatherResponseOk() {
         when(weatherService.createWeather(any(WeatherDomain.class))).thenReturn(WeatherDomain.builder().id(666L).build());
 
-        ResponseEntity<WeatherDomain> responseEntity = weatherController.createWeather(WeatherDomain.builder().id(666L).build());
+        WeatherDomain responseEntity = weatherController.createWeather(WeatherDomain.builder().id(666L).build());
 
         assertNotNull("responseEntity not should be null",responseEntity);
-        assertEquals("responseEntity.toString() should be equals to <200 OK OK,MeteorologicalDomain{id=666, date=null, location=null, temperature=null},[]>", responseEntity.toString(), "<200 OK OK,MeteorologicalDomain{id=666, date=null, location=null, temperature=null},[]>");
+        assertEquals("responseEntity.toString() should be equals to MeteorologicalDomain{id=666, date=null, location=null, temperature=null}", responseEntity.toString(), "MeteorologicalDomain{id=666, date=null, location=null, temperature=null}");
 
     }
 
@@ -106,10 +106,9 @@ public class WeatherControllerTest {
 
     @Test
     public void deleteWeatherByIdResponseOk() {
-        ResponseEntity<WeatherDomain> responseEntity = weatherController.deleteWeatherById(666L);
+        weatherController.deleteWeatherById(666L);
 
-        assertNotNull("responseEntity not should be null",responseEntity);
-        assertEquals("responseEntity.toString() should be equals to <200 OK OK,[]>", responseEntity.toString(), "<200 OK OK,[]>");
+        verify(weatherService, times(1)).deleteWeatherById(anyLong());
 
     }
 

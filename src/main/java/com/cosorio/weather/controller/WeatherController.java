@@ -5,6 +5,7 @@ import com.cosorio.weather.business.service.WeatherService;
 import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +24,19 @@ import java.util.List;
 public class WeatherController {
 
     private WeatherService weatherService;
+    private static final String PATH = "/weathers";
+    private static final String PATH_BY_ID = "/weathers/{weatherId}";
+
 
     public WeatherController(WeatherService weatherService) {
         this.weatherService = weatherService;
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/weathers")
+    @GetMapping(
+            value = PATH,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<WeatherDomain> getAllWeathers(@RequestParam(required = false) String date) {
         if (date != null){
             return weatherService.getWeatherByDate(date);
@@ -38,31 +45,47 @@ public class WeatherController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/weathers/{weatherId}")
+    @GetMapping(
+            value = PATH_BY_ID,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public WeatherDomain getWeather(@PathVariable("weatherId") Long weatherId){
         return weatherService.getWeather(weatherId);
     }
 
-    @PostMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<WeatherDomain> createWeather(@RequestBody WeatherDomain weatherDomain) {
-        return ResponseEntity.ok(weatherService.createWeather(weatherDomain));
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(
+            value = PATH,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WeatherDomain createWeather(@RequestBody WeatherDomain weatherDomain) {
+        return weatherService.createWeather(weatherDomain);
     }
 
-    @PutMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
+    @PutMapping(
+            value = PATH,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<WeatherDomain> updateWeather(@RequestBody WeatherDomain weatherDomain) {
         return ResponseEntity.ok(weatherService.updateWeather(weatherDomain));
     }
 
-    @DeleteMapping(value = "/weathers", produces = "application/json;charset=UTF-8")
+    @DeleteMapping(
+            value = PATH,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<WeatherDomain> deleteWeather(){
         weatherService.deleteAllWeathers();
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/weathers/{weatherId}", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<WeatherDomain> deleteWeatherById(@PathVariable("weatherId") Long weatherId){
+    @DeleteMapping(
+            value = PATH_BY_ID
+    )
+    public void deleteWeatherById(@PathVariable("weatherId") Long weatherId){
         weatherService.deleteWeatherById(weatherId);
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/weather/report")
