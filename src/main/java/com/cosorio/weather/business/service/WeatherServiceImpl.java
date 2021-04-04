@@ -3,6 +3,7 @@ package com.cosorio.weather.business.service;
 import com.cosorio.weather.business.builder.WeatherBuilder;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
+import com.cosorio.weather.exception.DateInputNullException;
 import com.cosorio.weather.exception.NotFoundWeatherException;
 import com.cosorio.weather.repository.WeatherRepository;
 import com.cosorio.weather.business.service.domain.Location;
@@ -150,23 +151,24 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     private Float getLowest(List<Temperature> temperatures) {
-        Collections.sort(temperatures);
-        return temperatures.get(0).getValue();
+        return temperatures.stream()
+                .sorted(Comparator.comparing(Temperature::getValue))
+                .map(Temperature::getValue)
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     private Float getHighest(List<Temperature> temperatures) {
-        Collections.reverse(temperatures);
-        return temperatures.get(0).getValue();
+        return temperatures.stream()
+                .sorted(Comparator.comparing(Temperature::getValue).reversed())
+                .map(Temperature::getValue)
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     private void validateDate(String startDate, String endDate) {
-        if(startDate == null){
-
+        if(startDate == null && endDate == null){
+            throw new DateInputNullException("Both dates can not be null!!!");
         }
-
-        if(endDate == null) {
-
-        }
-
     }
 }

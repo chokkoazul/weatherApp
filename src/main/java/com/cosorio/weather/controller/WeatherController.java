@@ -26,6 +26,7 @@ public class WeatherController {
     private WeatherService weatherService;
     private static final String PATH = "/weathers";
     private static final String PATH_BY_ID = "/weathers/{weatherId}";
+    private static final String PATH_REPORT = "/weather/report";
 
 
     public WeatherController(WeatherService weatherService) {
@@ -88,9 +89,13 @@ public class WeatherController {
         weatherService.deleteWeatherById(weatherId);
     }
 
-    @GetMapping("/weather/report")
-    public ResponseEntity<ReportWeather> getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
-        return ResponseEntity.ok(weatherService.getWeatherReport(startDate, endDate));
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(
+            value = PATH_REPORT,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ReportWeather getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+        return weatherService.getWeatherReport(startDate, endDate);
     }
 
 
