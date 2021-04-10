@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,10 +57,10 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     @Override
-    public List<WeatherDomain> getWeatherByDate(String date) {
+    public List<WeatherDomain> getWeatherByDate(LocalDate date) {
 
         List<WeatherDomain> weatherDomains = weatherRepository
-                .findByDate(Date.valueOf(date))
+                .findByDate(date)
                 .stream()
                 .sorted(Comparator.comparing(Weather::getId).reversed())
                 .map(WeatherBuilder::build)
@@ -81,7 +82,7 @@ public class WeatherServiceImpl implements WeatherService {
     public WeatherDomain createWeather(WeatherDomain weatherDomain) {
 
         Weather weather = new Weather();
-        weather.setDate(java.sql.Date.valueOf(weatherDomain.getDate()));
+        weather.setDate(weatherDomain.getDate());
         Location location = weatherDomain.getLocation();
         weather.setLatitud(location.getLat());
         weather.setLongitud(location.getLon());
@@ -104,7 +105,7 @@ public class WeatherServiceImpl implements WeatherService {
     public WeatherDomain updateWeather(WeatherDomain weatherDomain) {
         Weather weather = new Weather();
         weather.setId(weatherDomain.getId());
-        weather.setDate(java.sql.Date.valueOf(weatherDomain.getDate()));
+        weather.setDate(weatherDomain.getDate());
         Location location = weatherDomain.getLocation();
         weather.setLatitud(location.getLat());
         weather.setLongitud(location.getLon());

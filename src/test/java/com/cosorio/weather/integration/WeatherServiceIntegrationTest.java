@@ -35,12 +35,12 @@ public class WeatherServiceIntegrationTest {
 
     @Test
     public void testGetWeatherByDate() throws NotFoundWeatherException {
-        assertEquals("getWeatherByDate(\"2021-01-15\").toString() should be [MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]", weatherService.getWeatherByDate("2021-01-15").toString(), "[MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]");
+        assertEquals("getWeatherByDate(\"2021-01-15\").toString() should be [MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]", weatherService.getWeatherByDate(LocalDate.of(2021, 1, 15)).toString(), "[MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]");
     }
 
     @Test(expected = NotFoundWeatherException.class)
     public void testGetWeatherByDateNotFound() throws NotFoundWeatherException {
-        weatherService.getWeatherByDate("2021-01-10");
+        weatherService.getWeatherByDate(LocalDate.of(2021, 1, 10));
     }
 
     @Test

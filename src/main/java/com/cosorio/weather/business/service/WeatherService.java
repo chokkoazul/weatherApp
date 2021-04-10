@@ -3,6 +3,7 @@ package com.cosorio.weather.business.service;
 import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface WeatherService {
@@ -11,7 +12,7 @@ public interface WeatherService {
 
     WeatherDomain getWeather(Long id);
 
-    List<WeatherDomain> getWeatherByDate(String date);
+    List<WeatherDomain> getWeatherByDate(LocalDate date);
 
     WeatherDomain createWeather(WeatherDomain weatherDomain);
 

@@ -95,4 +95,3 @@ public class LoggerAspect {
         return proceed != null ? proceed.toString() : Strings.EMPTY;
     }
 }
-

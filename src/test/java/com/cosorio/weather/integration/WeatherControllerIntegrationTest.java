@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class WeatherControllerIntegrationTest {
         temperature.setId(1L);
         temperature.setValue(23.4F);
 
-        List<Weather> iterable = Collections.singletonList(getWeather(666L, Date.valueOf("2021-01-02"), "Santiago", "Chile", 12.4F, 34.4F, temperature));
+        List<Weather> iterable = Collections.singletonList(getWeather(666L, LocalDate.of(2021, 1, 2), "Santiago", "Chile", 12.4F, 34.4F, temperature));
 
         when(weatherRepository.findAll()).thenReturn(iterable);
 
@@ -57,7 +58,7 @@ public class WeatherControllerIntegrationTest {
 
     }
 
-    private Weather getWeather(long id, Date date, String city, String state, float lon, float lat, Temperature temperature) {
+    private Weather getWeather(long id, LocalDate date, String city, String state, float lon, float lat, Temperature temperature) {
         Weather weather = new Weather();
         weather.setId(id);
         weather.setDate(date);

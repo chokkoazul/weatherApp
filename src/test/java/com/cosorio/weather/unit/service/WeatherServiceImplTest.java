@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +37,7 @@ public class WeatherServiceImplTest {
     @Before
     public void setUp() {
         // STUB FOR getAllWeatherResponseOk
-        List<Weather> weathers = Collections.singletonList(getWeather(1L, Date.valueOf("2021-02-01"),
+        List<Weather> weathers = Collections.singletonList(getWeather(1L, LocalDate.of(2021,2,1),
                 23.2345f,
                 45.4567f,
                 "Santiago",
@@ -46,7 +47,7 @@ public class WeatherServiceImplTest {
         when(weatherRepository.findAll()).thenReturn(weathers);
 
         // STUB FOR getWeatherResponseOk
-        Optional<Weather> optionalWeather = Optional.of(getWeather(1L, Date.valueOf("2021-02-01"),
+        Optional<Weather> optionalWeather = Optional.of(getWeather(1L, LocalDate.of(2021,2,1),
                 23.2345f,
                 45.4567f,
                 "Santiago",
@@ -74,7 +75,7 @@ public class WeatherServiceImplTest {
     }
 
 
-    private Weather getWeather(Long id, Date date, Float latitud, Float longitud, String city, String state, List<Temperature> temperatures) {
+    private Weather getWeather(Long id, LocalDate date, Float latitud, Float longitud, String city, String state, List<Temperature> temperatures) {
         Weather weather = new Weather();
         weather.setId(id);
         weather.setDate(date);

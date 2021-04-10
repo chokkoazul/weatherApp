@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,7 +21,7 @@ public class Weather {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    private Date date;
+    private LocalDate date;
     private Float latitud;
     private Float longitud;
     @Column(unique = true)
@@ -75,11 +75,11 @@ public class Weather {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -113,6 +113,6 @@ public class Weather {
             temperature[i] = temperature1.getValue();
         }
 
-        return WeatherDomain.builder().id(getId()).date(getDate().toLocalDate()).location(location).temperature(temperature).build();
+        return WeatherDomain.builder().id(getId()).date(getDate()).location(location).temperature(temperature).build();
     }
 }

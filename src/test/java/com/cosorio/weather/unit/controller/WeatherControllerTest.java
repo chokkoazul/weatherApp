@@ -54,9 +54,9 @@ public class WeatherControllerTest {
 
     @Test
     public void getAllWeathersByDateResponseOk() {
-        when(weatherService.getWeatherByDate(anyString())).thenReturn(Arrays.asList(WeatherDomain.builder().id(666L).date(LocalDate.of(2021, 1, 2)).build()));
+        when(weatherService.getWeatherByDate(any(LocalDate.class))).thenReturn(Arrays.asList(WeatherDomain.builder().id(666L).date(LocalDate.of(2021, 1, 2)).build()));
 
-        List<WeatherDomain> listResponseEntity = weatherController.getAllWeathers("2021-1-2");
+        List<WeatherDomain> listResponseEntity = weatherController.getAllWeathers(LocalDate.of(2021, 1, 2));
 
         assertNotNull("weatherDomains.size() not should be null",listResponseEntity);
         assertEquals("listResponseEntity.getBody() should be equals to [MeteorologicalDomain{id=666, date=2021-01-02, location=null, temperature=null}]", listResponseEntity.toString(), "[MeteorologicalDomain{id=666, date=2021-01-02, location=null, temperature=null}]");

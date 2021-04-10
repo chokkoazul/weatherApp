@@ -18,7 +18,7 @@ public class WeatherBuilder {
 
         return WeatherDomain.builder()
                 .id(weather.getId())
-                .date(weather.getDate().toLocalDate())
+                .date(weather.getDate())
                 .location(location)
                 .temperature(temperature).build();
     }
