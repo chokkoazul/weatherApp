@@ -132,11 +132,11 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     @Override
-    public ReportWeather getWeatherReport(String startDate, String endDate) {
+    public ReportWeather getWeatherReport(LocalDate startDate, LocalDate endDate) {
 
         validateDate(startDate, endDate);
 
-        List<Weather> weathers = weatherRepository.findByDateLessThanEqualAndDateGreaterThanEqual(Date.valueOf(endDate), Date.valueOf(startDate));
+        List<Weather> weathers = weatherRepository.findByDateBetween(startDate, endDate);
 
         List<DataWeather> dataWeathers = new ArrayList<>();
         for (Weather weather: weathers){
@@ -161,7 +161,7 @@ public class WeatherServiceImpl implements WeatherService {
                 .get(0);
     }
 
-    private void validateDate(String startDate, String endDate) {
+    private void validateDate(LocalDate startDate, LocalDate endDate) {
         if(startDate == null && endDate == null){
             throw new DateInputNullException("Both dates can not be null!!!");
         }

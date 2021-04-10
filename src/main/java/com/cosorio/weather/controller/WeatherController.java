@@ -1,5 +1,6 @@
 package com.cosorio.weather.controller;
 
+import com.cosorio.weather.aspect.annotation.DateRangeValidator;
 import com.cosorio.weather.aspect.annotation.Monitor;
 import com.cosorio.weather.business.service.WeatherService;
 import com.cosorio.weather.business.service.domain.ReportWeather;
@@ -96,9 +97,11 @@ public class WeatherController {
             value = PATH_REPORT,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @DateRangeValidator
     public ReportWeather getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
-        return weatherService.getWeatherReport(startDate, endDate);
+        LocalDate from = LocalDate.parse(startDate);
+        LocalDate to = LocalDate.parse(endDate);
+
+        return weatherService.getWeatherReport(from, to);
     }
-
-
 }

@@ -22,5 +22,5 @@ public interface WeatherService {
 
     void deleteWeatherById(Long id);
 
-    ReportWeather getWeatherReport(String startDate, String endDate);
+    ReportWeather getWeatherReport(LocalDate startDate, LocalDate endDate);
 }

@@ -115,7 +115,7 @@ public class WeatherControllerTest {
 
     @Test
     public void getReportResponseOk() {
-        when(weatherService.getWeatherReport(anyString(),anyString()))
+        when(weatherService.getWeatherReport(any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(ReportWeather.builder().
                         report(Arrays.asList(
                                 DataWeather.builder().city("Santiago").highest(30.4F).lowest(10.4F).build(),

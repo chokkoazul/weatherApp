@@ -1,6 +1,7 @@
 package com.cosorio.weather.repository;
 
 import com.cosorio.weather.entity.Weather;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
@@ -16,5 +17,7 @@ public interface WeatherRepository extends JpaRepository<Weather, Long> {
     List<Weather> findByDateGreaterThanEqual(Date date);
 
     List<Weather> findByDateLessThanEqualAndDateGreaterThanEqual(Date date1, Date date2);
+
+    List<Weather> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
 }
