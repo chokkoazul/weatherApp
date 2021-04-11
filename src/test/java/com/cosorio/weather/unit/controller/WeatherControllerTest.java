@@ -5,6 +5,7 @@ import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.controller.WeatherController;
 import com.cosorio.weather.business.service.WeatherService;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
+import com.cosorio.weather.exception.InvalidDateRequestException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -127,5 +128,19 @@ public class WeatherControllerTest {
         assertEquals("responseEntity.toString() should be equals to ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}", responseEntity.toString(), "ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}");
 
     }
+
+    /*@Test(expected = InvalidDateRequestException.class)
+    public void getReportResponseWithDatesNull() {
+        when(weatherService.getWeatherReport(any(LocalDate.class), any(LocalDate.class)))
+                .thenReturn(ReportWeather.builder().
+                        report(Arrays.asList(
+                                DataWeather.builder().city("Santiago").highest(30.4F).lowest(10.4F).build(),
+                                DataWeather.builder().city("Londres").highest(60.3F).lowest(1.4F).build())).build());
+
+        ReportWeather responseEntity = weatherController.getWeatherReport(null, null);
+
+    }*/
+
+
 
 }
