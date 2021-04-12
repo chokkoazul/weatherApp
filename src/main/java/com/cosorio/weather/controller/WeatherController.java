@@ -5,6 +5,7 @@ import com.cosorio.weather.aspect.annotation.Monitor;
 import com.cosorio.weather.business.service.WeatherService;
 import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,7 +99,9 @@ public class WeatherController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @DateRangeValidator
-    public ReportWeather getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) {
+    @Cacheable(value = "reportCache", key = "{#startDate,#endDate}")
+    public ReportWeather getWeatherReport(@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate) throws InterruptedException {
+        Thread.sleep(5000);
         LocalDate from = LocalDate.parse(startDate);
         LocalDate to = LocalDate.parse(endDate);
 

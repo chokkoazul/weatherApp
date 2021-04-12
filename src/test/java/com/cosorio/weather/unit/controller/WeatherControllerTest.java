@@ -115,7 +115,7 @@ public class WeatherControllerTest {
     }
 
     @Test
-    public void getReportResponseOk() {
+    public void getReportResponseOk() throws InterruptedException {
         when(weatherService.getWeatherReport(any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(ReportWeather.builder().
                         report(Arrays.asList(
