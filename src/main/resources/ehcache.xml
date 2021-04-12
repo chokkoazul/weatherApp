@@ -1,0 +1,15 @@
+<ehcache>
+    <diskStore path="java.io.tmpdir" />
+
+    <defaultCache maxElementsInMemory="1"
+                  eternal="true"
+                  overflowToDisk="false"
+                  timeToLiveSeconds="1" />
+
+    <cache name="reportCache"
+           maxElementsInMemory="1"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1"
+           statistics="true"/>
+</ehcache>
