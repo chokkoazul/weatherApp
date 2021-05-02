@@ -12,11 +12,8 @@ import java.time.Period;
 @Monitor
 public class RangeDateValidator implements RequestDateValidator {
     @Override
-    public void validate(String dateFrom, String dateTo) {
-        if(dateFrom == null && dateTo == null){
-            throw new InvalidDateRequestException("Date must not be null");
-        }
-        if (Period.between(LocalDate.parse(dateFrom), LocalDate.parse(dateTo)).isNegative()) {
+    public void validate(LocalDate dateFrom, LocalDate dateTo) {
+        if (Period.between(dateFrom, dateTo).isNegative()) {
             throw new InvalidDateRequestException("Invalid date request ");
         }
     }

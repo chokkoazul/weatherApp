@@ -70,7 +70,7 @@ public class WeatherServiceImpl implements WeatherService {
         return weatherDomains;
     }
 
-    private void throwDataNotFoundExceptionWhenEmptyList(List<WeatherDomain> weatherList) {
+    private void throwDataNotFoundExceptionWhenEmptyList(List<?> weatherList) {
 
         if (weatherList.isEmpty()) {
             throw new NotFoundWeatherException("List is empty!!!");
@@ -135,6 +135,8 @@ public class WeatherServiceImpl implements WeatherService {
     public ReportWeather getWeatherReport(LocalDate startDate, LocalDate endDate) {
 
         List<Weather> weathers = weatherRepository.findByDateBetween(startDate, endDate);
+
+        throwDataNotFoundExceptionWhenEmptyList(weathers);
 
         List<DataWeather> dataWeathers = new ArrayList<>();
         for (Weather weather: weathers){

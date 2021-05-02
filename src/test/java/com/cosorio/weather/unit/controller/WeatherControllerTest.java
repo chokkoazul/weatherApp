@@ -122,7 +122,22 @@ public class WeatherControllerTest {
                                 DataWeather.builder().city("Santiago").highest(30.4F).lowest(10.4F).build(),
                                 DataWeather.builder().city("Londres").highest(60.3F).lowest(1.4F).build())).build());
 
-        ReportWeather responseEntity = weatherController.getWeatherReport("1984-01-01", "2021-01-01");
+        ReportWeather responseEntity = weatherController.getWeatherReport(LocalDate.of(1984, 1, 1), LocalDate.of(2021, 1, 1));
+
+        assertNotNull("responseEntity not should be null",responseEntity);
+        assertEquals("responseEntity.toString() should be equals to ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}", responseEntity.toString(), "ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}");
+
+    }
+
+    @Test
+    public void getReportResponseOkWithoutDate() throws InterruptedException {
+        when(weatherService.getWeatherReport(null, null))
+                .thenReturn(ReportWeather.builder().
+                        report(Arrays.asList(
+                                DataWeather.builder().city("Santiago").highest(30.4F).lowest(10.4F).build(),
+                                DataWeather.builder().city("Londres").highest(60.3F).lowest(1.4F).build())).build());
+
+        ReportWeather responseEntity = weatherController.getWeatherReport(null, null);
 
         assertNotNull("responseEntity not should be null",responseEntity);
         assertEquals("responseEntity.toString() should be equals to ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}", responseEntity.toString(), "ReportWeather{report=[dataWeather{city='Santiago', lowest=10.4, highest=30.4}, dataWeather{city='Londres', lowest=1.4, highest=60.3}]}");

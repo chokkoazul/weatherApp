@@ -1,10 +1,5 @@
 package com.cosorio.weather.integration;
 
-import com.cosorio.weather.business.service.domain.Location;
-import com.cosorio.weather.business.service.domain.WeatherDomain;
-import com.cosorio.weather.entity.Temperature;
-import com.cosorio.weather.entity.Weather;
-import com.cosorio.weather.repository.WeatherRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,46 +8,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.sql.Date;
+import java.time.Clock;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.time.ZoneId;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class WeatherControllerIntegrationTest {
+
+    //Mock your clock bean
+    @MockBean
+    private Clock clock;
+
+    //field that will contain the fixed clock
+    private Clock fixedClock;
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private WeatherRepository weatherRepository;
-
     @Test
     public void whenGetAllWeather_thenReturns200() throws Exception {
-
-        Temperature temperature = new Temperature();
-        temperature.setId(1L);
-        temperature.setValue(23.4F);
-
-        List<Weather> iterable = Collections.singletonList(getWeather(666L, LocalDate.of(2021, 1, 2), "Santiago", "Chile", 12.4F, 34.4F, temperature));
-
-        when(weatherRepository.findAll()).thenReturn(iterable);
 
         MvcResult mvcResult = this.mockMvc.perform(get("/weathers"))
                 .andDo(print())
@@ -61,16 +49,56 @@ public class WeatherControllerIntegrationTest {
 
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
-        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be [{\"id\":666,\"date\":\"2021-01-02\",\"location\":{\"lat\":34.4,\"lon\":12.4,\"city\":\"Santiago\",\"state\":\"Chile\"},\"temperature\":[23.4,null,null,null]}]", mockHttpServletResponse.getContentAsString(), "[{\"id\":666,\"date\":\"2021-01-02\",\"location\":{\"lat\":34.4,\"lon\":12.4,\"city\":\"Santiago\",\"state\":\"Chile\"},\"temperature\":[23.4,null,null,null]}]");
+        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be [{\"id\":6,\"date\":\"1799-12-18\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Arica\",\"state\":\"Chile\"},\"temperature\":[89.7,74.3,11.2,125.4]},{\"id\":5,\"date\":\"1799-12-15\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Antofagasta\",\"state\":\"Chile\"},\"temperature\":[89.7,74.3,11.2,125.4]},{\"id\":4,\"date\":\"1999-01-25\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"London\",\"state\":\"England\"},\"temperature\":[15.7,24.3,51.2,15.4]},{\"id\":3,\"date\":\"1980-01-28\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Santiago\",\"state\":\"Chile\"},\"temperature\":[74.7,24.3,91.2,45.4]},{\"id\":2,\"date\":\"1915-06-03\",\"location\":{\"lat\":45.2546,\"lon\":12.8089,\"city\":\"Los Angeles\",\"state\":\"Florida\"},\"temperature\":[89.7,54.3,11.2,95.4]},{\"id\":1,\"date\":\"1900-01-01\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"temperature\":[89.7,74.3,11.2,125.4]}]", mockHttpServletResponse.getContentAsString(), "[{\"id\":6,\"date\":\"1799-12-18\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Arica\",\"state\":\"Chile\"},\"temperature\":[89.7,74.3,11.2,125.4]},{\"id\":5,\"date\":\"1799-12-15\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Antofagasta\",\"state\":\"Chile\"},\"temperature\":[89.7,74.3,11.2,125.4]},{\"id\":4,\"date\":\"1999-01-25\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"London\",\"state\":\"England\"},\"temperature\":[15.7,24.3,51.2,15.4]},{\"id\":3,\"date\":\"1980-01-28\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Santiago\",\"state\":\"Chile\"},\"temperature\":[74.7,24.3,91.2,45.4]},{\"id\":2,\"date\":\"1915-06-03\",\"location\":{\"lat\":45.2546,\"lon\":12.8089,\"city\":\"Los Angeles\",\"state\":\"Florida\"},\"temperature\":[89.7,54.3,11.2,95.4]},{\"id\":1,\"date\":\"1900-01-01\",\"location\":{\"lat\":32.2345,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"temperature\":[89.7,74.3,11.2,125.4]}]");
 
     }
 
     @Test
-    public void whenGetReportWeatherWithDateNull_thenReturns400() throws Exception {
+    public void whenGetReportWeatherWithDateNull_thenReturnsOneWeather() throws Exception {
 
-        this.mockMvc.perform(get("/weather/report"))
+        fixedClock = Clock.fixed(LocalDate.of(1900, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
+        doReturn(fixedClock.instant()).when(clock).instant();
+        doReturn(fixedClock.getZone()).when(clock).getZone();
+
+        MvcResult mvcResult = this.mockMvc.perform(get("/weather/report"))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be {\"report\":[{\"city\":\"Dallas\",\"lowest\":11.2,\"highest\":125.4}]}", mockHttpServletResponse.getContentAsString(), "{\"report\":[{\"city\":\"Dallas\",\"lowest\":11.2,\"highest\":125.4}]}");
+
+    }
+
+    @Test
+    public void whenGetReportWeatherWithoutStartDate_thenReturnsTwoWeathers() throws Exception {
+
+        fixedClock = Clock.fixed(LocalDate.of(1800, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
+        doReturn(fixedClock.instant()).when(clock).instant();
+        doReturn(fixedClock.getZone()).when(clock).getZone();
+
+        MvcResult mvcResult = this.mockMvc.perform(get("/weather/report?endDate=1800-01-30"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be {\"report\":[{\"city\":\"Antofagasta\",\"lowest\":11.2,\"highest\":125.4},{\"city\":\"Arica\",\"lowest\":11.2,\"highest\":125.4}]}", mockHttpServletResponse.getContentAsString(), "{\"report\":[{\"city\":\"Antofagasta\",\"lowest\":11.2,\"highest\":125.4},{\"city\":\"Arica\",\"lowest\":11.2,\"highest\":125.4}]}");
+
+    }
+
+    @Test
+    public void whenGetReportWeatherWithoutEndDate_thenReturnsNotFound() throws Exception {
+
+        fixedClock = Clock.fixed(LocalDate.of(1800, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
+        doReturn(fixedClock.instant()).when(clock).instant();
+        doReturn(fixedClock.getZone()).when(clock).getZone();
+
+        this.mockMvc.perform(get("/weather/report?startDate=1799-12-30"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
                 .andReturn();
 
     }
@@ -88,43 +116,24 @@ public class WeatherControllerIntegrationTest {
     @Test
     public void whenGetReportWeather_thenReturns200() throws Exception {
 
-        Temperature temperature = new Temperature();
-        temperature.setId(1L);
-        temperature.setValue(23.4F);
-
-
-        Weather weather = new Weather();
-        weather.setId(666L);
-        weather.setDate(LocalDate.of(2021, 1, 1));
-        weather.setCity("Santiago");
-        weather.setState("Chile");
-        weather.setLatitud(32.45F);
-        weather.setLongitud(32.45F);
-        weather.setTemperatures(Arrays.asList(temperature, temperature, temperature, temperature));
-
-        when(weatherRepository.findByDateBetween(any(LocalDate.class), any(LocalDate.class))).thenReturn(Arrays.asList(weather));
-
-        MvcResult mvcResult = this.mockMvc.perform(get("/weather/report?startDate=2020-01-01&endDate=2021-04-01"))
+        MvcResult mvcResult = this.mockMvc.perform(get("/weather/report?startDate=1980-01-01&endDate=2000-01-01"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
-        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be {\"report\":[{\"city\":\"Santiago\",\"lowest\":23.4,\"highest\":23.4}]}", mockHttpServletResponse.getContentAsString(), "{\"report\":[{\"city\":\"Santiago\",\"lowest\":23.4,\"highest\":23.4}]}");
+        Assert.assertEquals("mockHttpServletResponse.getContentAsString() should be {\"report\":[{\"city\":\"Santiago\",\"lowest\":24.3,\"highest\":91.2},{\"city\":\"London\",\"lowest\":15.4,\"highest\":51.2}]}", mockHttpServletResponse.getContentAsString(), "{\"report\":[{\"city\":\"Santiago\",\"lowest\":24.3,\"highest\":91.2},{\"city\":\"London\",\"lowest\":15.4,\"highest\":51.2}]}");
 
     }
 
-    private Weather getWeather(long id, LocalDate date, String city, String state, float lon, float lat, Temperature temperature) {
-        Weather weather = new Weather();
-        weather.setId(id);
-        weather.setDate(date);
-        weather.setCity(city);
-        weather.setState(state);
-        weather.setLongitud(lon);
-        weather.setLatitud(lat);
-        weather.setTemperatures(Collections.singletonList(temperature));
-        return weather;
+    @Test
+    public void whenGetReportWeatherNotFound_thenReturns404() throws Exception {
+
+        this.mockMvc.perform(get("/weather/report?startDate=2021-01-01&endDate=2021-05-02"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
 
     }
 

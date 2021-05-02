@@ -1,6 +1,8 @@
 package com.cosorio.weather.util;
 
+import java.time.LocalDate;
+
 public interface RequestDateValidator {
 
-    void validate(String dateFrom, String dateTo);
+    void validate(LocalDate dateFrom, LocalDate dateTo);
 }
