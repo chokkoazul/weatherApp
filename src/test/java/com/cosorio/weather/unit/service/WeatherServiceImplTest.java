@@ -1,11 +1,11 @@
 package com.cosorio.weather.unit.service;
 
 
-import com.cosorio.weather.repository.WeatherRepository;
 import com.cosorio.weather.business.service.WeatherServiceImpl;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
+import com.cosorio.weather.repository.ro.WeatherRepositoryRo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.when;
 public class WeatherServiceImplTest {
 
     @Mock
-    private WeatherRepository weatherRepository;
+    private WeatherRepositoryRo weatherRepositoryRo;
 
     @InjectMocks
     private WeatherServiceImpl weatherService;
@@ -44,7 +43,7 @@ public class WeatherServiceImplTest {
                 "Chile",
                 Arrays.asList(new Temperature(1L, 89.3f),
                         new Temperature(2L, 45.7f))));
-        when(weatherRepository.findAll()).thenReturn(weathers);
+        when(weatherRepositoryRo.findAll()).thenReturn(weathers);
 
         // STUB FOR getWeatherResponseOk
         Optional<Weather> optionalWeather = Optional.of(getWeather(1L, LocalDate.of(2021,2,1),
@@ -54,7 +53,7 @@ public class WeatherServiceImplTest {
                 "Chile",
                 Arrays.asList(new Temperature(1L, 89.3f),
                         new Temperature(2L, 45.7f))));
-        when(weatherRepository.findById(anyLong())).thenReturn(optionalWeather);
+        when(weatherRepositoryRo.findById(anyLong())).thenReturn(optionalWeather);
     }
 
     @Test

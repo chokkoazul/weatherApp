@@ -1,14 +1,13 @@
-package com.cosorio.weather.repository;
+package com.cosorio.weather.repository.rw;
 
 import com.cosorio.weather.entity.Weather;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface WeatherRepository extends JpaRepository<Weather, Long> {
+public interface WeatherRepositoryRw extends JpaRepository<Weather, Long> {
 
     List<Weather> findByDate(LocalDate date);
 

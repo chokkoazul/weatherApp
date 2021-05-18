@@ -48,7 +48,7 @@ public class WeatherServiceIntegrationTest {
 
         WeatherDomain weatherDomain = weatherService.createWeather(getWeatherDomainTest());
         assertNotNull("weatherDomain.getId() should not be null", weatherDomain.getId());
-        assertEquals("weatherDomain.getId() should be 5", weatherDomain.getId(), Long.valueOf(5));
+        assertEquals("weatherDomain.getId() should be 7", weatherDomain.getId(), Long.valueOf(7));
     }
 
     private WeatherDomain getWeatherDomainTest() {

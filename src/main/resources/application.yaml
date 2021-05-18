@@ -1,11 +1,25 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:jpadb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: mypass
+    rw:
+      jdbc-url: jdbc:h2:mem:jpadb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password: mypass
+    ro:
+      jdbc-url: jdbc:h2:mem:jpadb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password: mypass
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    properties:
+      hibernate:
+        type: trace
+        ddl-auto: update
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
   h2:
     console:
       enabled: true

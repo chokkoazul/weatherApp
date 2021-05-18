@@ -3,21 +3,20 @@ package com.cosorio.weather.business.service;
 import com.cosorio.weather.business.builder.WeatherBuilder;
 import com.cosorio.weather.entity.Temperature;
 import com.cosorio.weather.entity.Weather;
-import com.cosorio.weather.exception.DateInputNullException;
 import com.cosorio.weather.exception.NotFoundWeatherException;
-import com.cosorio.weather.repository.WeatherRepository;
 import com.cosorio.weather.business.service.domain.Location;
 import com.cosorio.weather.business.service.domain.ReportWeather;
 import com.cosorio.weather.business.service.domain.WeatherDomain;
-import com.cosorio.weather.repository.TemperatureRepository;
 import com.cosorio.weather.business.service.domain.DataWeather;
+import com.cosorio.weather.repository.ro.TemperatureRepositoryRo;
+import com.cosorio.weather.repository.ro.WeatherRepositoryRo;
+import com.cosorio.weather.repository.rw.TemperatureRepositoryRw;
+import com.cosorio.weather.repository.rw.WeatherRepositoryRw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,18 +24,24 @@ import java.util.stream.Collectors;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
-    private WeatherRepository weatherRepository;
-    private TemperatureRepository temperatureRepository;
+    private WeatherRepositoryRo weatherRepositoryRo;
+    private WeatherRepositoryRw weatherRepositoryRw;
+
+    private TemperatureRepositoryRo temperatureRepositoryRo;
+    private TemperatureRepositoryRw temperatureRepositoryRw;
 
     @Autowired
-    public WeatherServiceImpl(WeatherRepository weatherRepository, TemperatureRepository temperatureRepository) {
-        this.weatherRepository = weatherRepository;
-        this.temperatureRepository = temperatureRepository;
+    public WeatherServiceImpl(WeatherRepositoryRo weatherRepositoryRo, WeatherRepositoryRw weatherRepositoryRw, TemperatureRepositoryRo temperatureRepositoryRo, TemperatureRepositoryRw temperatureRepositoryRw) {
+        this.weatherRepositoryRo = weatherRepositoryRo;
+        this.weatherRepositoryRw = weatherRepositoryRw;
+        this.temperatureRepositoryRo = temperatureRepositoryRo;
+        this.temperatureRepositoryRw = temperatureRepositoryRw;
     }
+
 
     @Override
     public List<WeatherDomain> getAllWeather() {
-        List<WeatherDomain> weatherDomains = weatherRepository.findAll()
+        List<WeatherDomain> weatherDomains = weatherRepositoryRo.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Weather::getId).reversed())
                 .map(WeatherBuilder::build)
@@ -50,7 +55,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public WeatherDomain getWeather(Long id) {
-        return weatherRepository
+        return weatherRepositoryRo
                 .findById(id)
                 .map(WeatherBuilder::build)
                 .orElseThrow(() -> new NotFoundWeatherException("No existe weather con ese Id"));
@@ -59,7 +64,7 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public List<WeatherDomain> getWeatherByDate(LocalDate date) {
 
-        List<WeatherDomain> weatherDomains = weatherRepository
+        List<WeatherDomain> weatherDomains = weatherRepositoryRo
                 .findByDate(date)
                 .stream()
                 .sorted(Comparator.comparing(Weather::getId).reversed())
@@ -92,11 +97,11 @@ public class WeatherServiceImpl implements WeatherService {
         for(Float temp:weatherDomain.getTemperature()){
             Temperature temperature = new Temperature();
             temperature.setValue(temp);
-            temperatures.add(temperatureRepository.save(temperature));
+            temperatures.add(temperatureRepositoryRw.save(temperature));
         }
 
         weather.setTemperatures(temperatures);
-        weatherRepository.save(weather);
+        weatherRepositoryRw.save(weather);
         weatherDomain.setId(weather.getId());
         return weatherDomain;
     }
@@ -115,26 +120,26 @@ public class WeatherServiceImpl implements WeatherService {
         for(Float temp:weatherDomain.getTemperature()){
             Temperature temperature = new Temperature();
             temperature.setValue(temp);
-            temperatures.add(temperatureRepository.save(temperature));
+            temperatures.add(temperatureRepositoryRw.save(temperature));
         }
         weather.setTemperatures(temperatures);
-        return weatherRepository.save(weather).transformToWeather();
+        return weatherRepositoryRw.save(weather).transformToWeather();
     }
 
     @Override
     public void deleteAllWeathers() {
-        weatherRepository.deleteAll();
+        weatherRepositoryRw.deleteAll();
     }
 
     @Override
     public void deleteWeatherById(Long id) {
-        weatherRepository.deleteById(id);
+        weatherRepositoryRw.deleteById(id);
     }
 
     @Override
     public ReportWeather getWeatherReport(LocalDate startDate, LocalDate endDate) {
 
-        List<Weather> weathers = weatherRepository.findByDateBetween(startDate, endDate);
+        List<Weather> weathers = weatherRepositoryRo.findByDateBetween(startDate, endDate);
 
         throwDataNotFoundExceptionWhenEmptyList(weathers);
 
