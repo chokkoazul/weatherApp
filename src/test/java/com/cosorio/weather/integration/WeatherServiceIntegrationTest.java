@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -17,7 +18,8 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase
+@ActiveProfiles("test")
+//@AutoConfigureTestDatabase
 public class WeatherServiceIntegrationTest {
 
     @Autowired
@@ -25,17 +27,17 @@ public class WeatherServiceIntegrationTest {
 
     @Test
     public void testGetAllWeather() {
-        assertEquals("getAllWeather().size() should be 4", weatherService.getAllWeather().size(), 4);
+        assertEquals("getAllWeather().size() should be 6", weatherService.getAllWeather().size(), 6);
     }
 
     @Test
     public void testGetWeather() {
-        assertEquals("getWeather(1L).toString() should be MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}", weatherService.getWeather(1L).toString(), "MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}");
+        assertEquals("getWeather(1L).toString() should be MeteorologicalDomain{id=1, date=1900-01-01, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}", weatherService.getWeather(1L).toString(), "MeteorologicalDomain{id=1, date=1900-01-01, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}");
     }
 
     @Test
     public void testGetWeatherByDate() throws NotFoundWeatherException {
-        assertEquals("getWeatherByDate(\"2021-01-15\").toString() should be [MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]", weatherService.getWeatherByDate(LocalDate.of(2021, 1, 15)).toString(), "[MeteorologicalDomain{id=1, date=2021-01-15, location=Location{lat=32.2345, lon=96.797, city='Dallas', state='Texas'}, temperature=[89.7, 74.3, 11.2, 125.4]}]");
+        assertEquals("getWeatherByDate(\"1915-06-03\").toString() should be [MeteorologicalDomain{id=2, date=1915-06-03, location=Location{lat=45.2546, lon=12.8089, city='Los Angeles', state='Florida'}, temperature=[89.7, 54.3, 11.2, 95.4]}]", weatherService.getWeatherByDate(LocalDate.of(1915, 6, 3)).toString(), "[MeteorologicalDomain{id=2, date=1915-06-03, location=Location{lat=45.2546, lon=12.8089, city='Los Angeles', state='Florida'}, temperature=[89.7, 54.3, 11.2, 95.4]}]");
     }
 
     @Test(expected = NotFoundWeatherException.class)
